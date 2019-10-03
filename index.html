@@ -1,39 +1,69 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html lang="en-us">
 <head>
 <meta charset="utf-8">
-<title>Investment Calculator</title>
-<script>
-/* Input: principal, rate, numYears, Period per years
- * Processing: pass parameters through future value function to compute future value
- * Output: future value
- */
-function doFV(){
-    var principal = parseFloat(document.getElementById('principal').value);
-    var rate = parseFloat(document.getElementById('rate').value);
-    var numYears = parseFloat(document.getElementById('numYears').value);
-    var periodYears = parseFloat(document.getElementById('periodYears').value);
-    
-    var futurevalue = computeFutureValue(principal, rate, numYears, periodYears)
-    document.getElementById('output').innerHTML = '$' + futurevalue;
+<title>Alan Deaton's Assignments</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+li {
+  list-style-position: inside;
 }
-function computeFutureValue(principal, rate, numYears, periodYears){
-    ratePerPeriod = rate / periodYears; 
-    var futurevalue = principal * Math.pow((1 + ratePerPeriod), (periodYears * numYears));
-    futurevalue = Math.round(futurevalue *100) / 100;
-    return futurevalue;
-
-}
-</script>
+ul {text-align:center;}
+</style>
 </head>
-
 <body>
-<h1>Investment Calculator</h1>
-Amount Invested (principal)<input type="text" id="principal"><br>
-Annual rate (example: .08) <input type="text" id="rate"><br>
-Number of years <input type="text" id="numYears"><br>
-Periods per year <input type="text" id="periodYears"><br>
-<button type="button" onclick="doFV()">Compute future value</button>
-<div id="output"></div>
+<h1>CS 213 Assignments</h1>
+    <ul>  
+      <li>
+        <a href="assign02.html">assign02.html</a> <br>
+      </li>
+      <li>
+        <a href="assign03.html">assign03.html</a> <br>
+      </li>
+      <li>
+        <a href="assign04.html">assign04.html</a> <br>
+      </li>
+      <li>
+        <a href="assign05.html">assign05.html</a> <br>
+      </li>
+      <li>
+        <a href="assign06.html">assign06.html</a> <br>
+      </li>
+      <li>
+        <a href="assign07.html">assign07.html</a> <br>
+      </li>
+      <li>
+        <a href="assign08.html">assign08.html</a> <br>
+      </li>
+      <li>
+        <a href="assign08_2.html">assign08_2.html</a> <br>
+      </li>
+      <li>
+        <a href="assign08_3.html">assign08_3.html</a> <br>
+      </li>
+      <li>
+        <a href="assign08_4.html">assign08_4.html</a> <br>
+      </li>
+      <li>
+        <a href="assign09.html">assign09.html</a> <br>
+      </li>
+      <li>
+        <a href="mortgage.html">assign10.html-Part1</a> <br>
+      </li>
+      <li>
+        <a href="assign10.html">assign10.html-Part2</a> <br>
+      </li>
+      <li>
+        <a href="assign11.html">assign11.html</a> <br>
+      </li>
+      <li>
+        <a href="assign12.html">assign12.html</a> <br>
+      </li>
+      <li>
+        <a href="assign13.html">assign13.html</a> <br>
+      </li>
+    </ul>
+
 </body>
+
 </html>
