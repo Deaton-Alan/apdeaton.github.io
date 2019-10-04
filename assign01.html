@@ -1,0 +1,80 @@
+<!DOCTYPE HTML>
+<html lang="en-us">
+<head>
+<meta charset="utf-8">
+<title>Title</title>
+<script>
+/* Input: user inputs start, end, and divisor number
+ * Processing: pass numbers through the loop
+ * Output: output list of numbers that work according to divisor specified
+ */
+function studentScore(){
+    var Sam = ["10%", "7%", "6%", "1%", "2%", "22%", "38%"];
+    var Joe = ["72%", "67%", "88%", "92%", "65%", "77%", "48%"];
+    var Tim = ["100%", "100%", "100%", "100%", "100%", "98%", "92%"];
+
+    var status = [];
+    status ["Sam"] = "Bad Student";
+    status ["Joe"] = "Normal Student!";
+    status ["Tim"] = "Excellent Student!";
+
+    document.getElementById("output").innerHTML = "";
+
+    var student = document.getElementById('student').value;
+    
+    if (student == 1)
+    {
+        for (i = 0; i < Sam.length; i++)
+        {
+            document.getElementById("output").innerHTML += Sam[i] + "<br>";
+        }
+    }
+    else if (student == 2)
+    {
+        for (i = 0; i < Joe.length; i++)
+        {
+            document.getElementById("output").innerHTML += Joe[i] + "<br>";
+        }
+    }
+    else if (student == 3)
+    {
+        for (i = 0; i < Tim.length; i++)
+        {
+            document.getElementById("output").innerHTML += Tim[i] + "<br>";
+        }
+    }
+    else {
+
+        var message = status[student];
+        displayMessage(message);
+    }
+
+    function displayMessage(message)
+    {
+        document.getElementById("output").innerHTML = message;
+    }
+
+}
+</script>
+</head>
+
+<body>
+<h1>Multiplication EXAM Scores</h1>
+Please type a name of one of the following students <br>(must be EXACT with proper upper and lower case 
+letters) to see their test scores.  <br>Type their number to see their student status: <br>
+<li>
+    Sam (1)
+</li>
+<li>
+    Joe (2)
+</li>
+<li>
+    Tim (3)
+</li> <br>
+Input Student name/number here: <input type="text" id="student" size="10"><br><br>
+
+<button type="button" onclick="studentScore()">Search Scores/Status</button>
+<div id="errorMessage"></div><br>
+<div id="output"></div>
+</body>
+</html>
