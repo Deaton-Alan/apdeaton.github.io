@@ -1,0 +1,55 @@
+<!DOCTYPE HTML>
+<html lang="en-us">
+<head>
+<meta charset="utf-8">
+<title>Scripture Substitution</title>
+<script>
+function myFunction(){
+    
+    var name1 = document.getElementById("name1").value;
+    var name2 = document.getElementById("name2").value;
+
+    var insert1 = document.createElement("string");
+    insert1.innerHTML = name1;
+
+    var insert2 = document.createElement("string");
+    insert2.innerHTML = name2;
+    
+    var sub1 = document.getElementById("sub1");
+    var sub2 = document.getElementById("sub2");
+    if (sub1.hasChildNodes()) {
+        sub1.removeChild(sub1.firstChild);
+    document.getElementById("sub1").appendChild(insert1);
+    }
+    if (sub2.hasChildNodes()) {
+        sub2.removeChild(sub2.firstChild);
+        document.getElementById("sub2").appendChild(insert2);
+    }
+}
+</script>
+</head>
+
+<body>
+<h1>SCRIPTURE SUBSTITUTION</h1>
+<div>
+        And when my father saw that the waters of the river emptied into the fountain <br>
+        of the Red Sea, he spake unto <b><textNode id="sub1">Laman</textNode></b>, saying: O that thou 
+        mightest <br>
+        be like unto this river, continually running into the fountain of all <br>
+        righteousness! <br><br>
+
+        And he also spake unto <b><textNode id="sub2">Lemuel</textNode></b>: O that thou mightest be like unto <br>
+        this valley, firm and bsteadfast, and immovable in keeping the commandments <br>
+        of the Lord! <br><br>
+</div>
+<div>
+    Please substitute a name for Laman: <input type="text" id="name1">
+</div>
+<div>
+    Please substitute a name for Lemuel: <input type="text" id="name2">
+</div>
+<button style="margin-top: 20px;" type="button" onclick="myFunction()">Substitute</button>
+<div id="outputDiv"></div>
+</body>
+
+</html>
