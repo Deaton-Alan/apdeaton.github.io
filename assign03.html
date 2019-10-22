@@ -1,0 +1,48 @@
+<!DOCTYPE HTML>
+<html lang="en-us">
+<head>
+<meta charset="utf-8">
+<title>Chuck Norris</title>
+<script>
+    var jokeString;
+function myFunction(){
+    var url = "http://api.icndb.com/jokes/random";
+    var xhttp = new XMLHttpRequest();
+    var joke;
+    xhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+        var myObj = JSON.parse(this.responseText);
+        joke = myObj.value.joke;
+        jokeString = JSON.stringify(myObj);
+        document.getElementById("outputDiv").innerHTML = joke;
+        }
+    };
+    xhttp.open("GET", url, true);
+    xhttp.send();
+}
+
+function jokeNumber(){
+    var stringifyObj = JSON.parse(jokeString);
+    var id = stringifyObj.value.id;
+    document.getElementById("outputId").innerHTML= id;
+
+}
+</script>
+</head>
+
+<body>
+<h1>What's funnier than a joke???)...A Chuck Norris Joke</h1>
+<div>
+     Press for Joke! <br>
+     <button type="button" onclick="myFunction()" id="joke">Get Joke!</button>   
+</div>
+<div id="outputDiv"></div>
+<br><br>
+<div>
+    Press to see which numbered joke this is <br>
+    <button type="button" onclick="jokeNumber()" id="joke">Search the Joke Number</button>
+</div>
+<div id="outputId"></div>
+</body>
+
+</html>
