@@ -1,0 +1,104 @@
+<!DOCTYPE HTML>
+<html lang="en-us">
+<head>
+<meta charset="utf-8">
+<title>Chuck Norris</title>
+<script>
+
+function onloadFunction() {
+    alert("You ready for some Chuck Norris jokes?!");
+}
+
+function mouseclickFunction() {
+    document.getElementById("touch").innerHTML= "<b>A Chuck Norris Joke!!! HAHAHA</b>";
+}
+
+function touchstartFunction(){
+    document.getElementById("touch").innerHTML= "<b>A Chuck Norris Joke!!! HAHAHA</b>";
+}
+
+    var jokeNumber;
+    var jokeString;
+function myFunction(){
+    var url = "http://api.icndb.com/jokes/random";
+    var xhttp = new XMLHttpRequest();
+    var joke;
+    xhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+        var myObj = JSON.parse(this.responseText);
+        joke = myObj.value.joke;
+        jokeString = JSON.stringify(myObj);
+        document.getElementById("outputDiv").innerHTML = joke;
+        }
+    };
+    xhttp.open("GET", url, true);
+    xhttp.send();
+
+    var x = document.getElementById("savedDiv");
+    if (x.innerHTML == "<b>Joke Saved!</b>") {
+        x.setAttribute("id", "touch");
+        x.innerHTML = "<b>Chuck Norris Jokes</b>";
+    }
+    var elm = x;
+    var newone = elm.cloneNode(true);
+    elm.parentNode.replaceChild(newone, elm);
+}
+
+function jokeNumber(){
+    var stringifyObj = JSON.parse(jokeString);
+    var id = stringifyObj.value.id;
+    document.getElementById("outputId").innerHTML= "<b>" + id + "</b>";
+
+}
+
+//ANIMATION FOR JOKE
+
+function saveJoke() {
+    var x = document.getElementById("outputDiv");
+    var y = document.getElementById("touch");
+
+    x.style.WebkitAnimation = "myJoke 1.5s";
+
+    //x.style.color = "blue";  <-----Example of changing a style
+    //x.setAttribute("onclick", "removePost()")  <------Example of adding an attribute
+    var elm = x;
+    var newone = elm.cloneNode(true);
+    elm.parentNode.replaceChild(newone, elm);
+
+    y.setAttribute("id", "savedDiv");
+    y.innerHTML = "<b>Joke Saved!</b>";
+
+    var element = y;
+    var newone = element.cloneNode(true);
+    element.parentNode.replaceChild(newone, element);
+}
+</script>
+
+<link rel="stylesheet" href="norris.css">
+
+</head>
+
+<body onload="onloadFunction()">
+<p ontouchstart="touchstartFunction()" class="heading" style="font-size: 40px;" id="touch" 
+onclick="mouseclickFunction()">
+    <b>What's funnier than a joke???</b>
+</p>
+<div >
+     Press for Joke! <br>
+     <button type="button" onclick="myFunction()" id="joke">Get Joke!</button>   
+</div>
+<div id="outputDiv" class="joke"></div>
+<br><br>
+<div >
+    Press to see which numbered joke this is <br>
+    <button type="button" onclick="jokeNumber()">Search the Joke Number</button>
+</div>
+<div id="outputId" class="joke"></div>
+
+<div >
+        Press to save this joke <br>
+        <button type="button" onclick="saveJoke()">Save Joke</button>
+    </div>
+</body>
+
+</html>
