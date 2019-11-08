@@ -3,7 +3,16 @@
 <head>
 <meta charset="utf-8">
 <title>Chuck Norris</title>
+<style>
+
+</style>
 <script>
+    //This is the number of jokes saved
+    var numOfJokes;
+    var jokeNumber;
+    var jokeString;
+
+    var savedJoke;
 
 function onloadFunction() {
     alert("You ready for some Chuck Norris jokes?!");
@@ -17,8 +26,7 @@ function touchstartFunction(){
     document.getElementById("touch").innerHTML= "<b>A Chuck Norris Joke!!! HAHAHA</b>";
 }
 
-    var jokeNumber;
-    var jokeString;
+
 function myFunction(){
     var url = "http://api.icndb.com/jokes/random";
     var xhttp = new XMLHttpRequest();
@@ -37,8 +45,11 @@ function myFunction(){
     var x = document.getElementById("savedDiv");
     if (x.innerHTML == "<b>Joke Saved!</b>") {
         x.setAttribute("id", "touch");
+        x.style.backgroundColor = "orange";
         x.innerHTML = "<b>Chuck Norris Jokes</b>";
     }
+
+    document.getElementById("errorSaved").innerHTML = "";
     var elm = x;
     var newone = elm.cloneNode(true);
     elm.parentNode.replaceChild(newone, elm);
@@ -56,7 +67,23 @@ function jokeNumber(){
 function saveJoke() {
     var x = document.getElementById("outputDiv");
     var y = document.getElementById("touch");
+    document.getElementById("errorSaved").innerHTML = "";
 
+    if (x.innerHTML == ""){
+        y.setAttribute("class", "headerChange");
+        y.innerHTML = "<b>OOPS!</b> No Joke has been chosen!";
+        return;
+    }
+
+    if (x.innerHTML == savedJoke){
+        document.getElementById("errorSaved").innerHTML = "<b>Error:</b> Already Saved this Joke";
+        return;
+    }
+
+    savedJoke = x.innerHTML;
+    
+    
+    //y.setAttribute("class", "heading")
     x.style.WebkitAnimation = "myJoke 1.5s";
 
     //x.style.color = "blue";  <-----Example of changing a style
@@ -65,12 +92,57 @@ function saveJoke() {
     var newone = elm.cloneNode(true);
     elm.parentNode.replaceChild(newone, elm);
 
+    
+    y.style.backgroundColor= "lightgreen";
     y.setAttribute("id", "savedDiv");
     y.innerHTML = "<b>Joke Saved!</b>";
+    y.style.transform= "rotate(0deg)";
 
     var element = y;
     var newone = element.cloneNode(true);
     element.parentNode.replaceChild(newone, element);
+}
+
+function loadBar() {
+    var x = document.getElementById("outputDiv");
+    var y = document.getElementById("touch");
+    var z = document.getElementById("loadBar");
+    document.getElementById("errorSaved").innerHTML = "";
+    
+    if (x.innerHTML == savedJoke){
+        document.getElementById("errorSaved").innerHTML = "<b>Error:</b> Already Saved this Joke";
+        return;
+    }
+
+    savedJoke = x.innerHTML;
+
+    z.style.WebkitAnimation = "loadBar 3.5s";
+
+    var elm2 = z;
+    var newone2 = elm2.cloneNode(true);
+    elm2.parentNode.replaceChild(newone2, elm2);
+    y.style.backgroundColor = "lightgreen";
+}
+
+function changeHeader() {
+    var x = document.getElementById("outputDiv");
+    var y = document.getElementById("touch");
+    
+    
+    if (x.innerHTML == ""){
+        y.style.transform= "rotate(20deg)";
+        y.style.backgroundColor = "red";
+        y.innerHTML = "<b>OOPS!</b> No Joke has been chosen!";
+        return;
+    }
+
+    y.style.transform= "rotate(0deg)";
+    var y = document.getElementById("touch");
+    y.setAttribute("id", "savedDiv");
+    y.innerHTML = "<b>Joke Saved!</b>";
+    y.style.transform= "rotate(360deg)";
+
+
 }
 </script>
 
@@ -79,26 +151,54 @@ function saveJoke() {
 </head>
 
 <body onload="onloadFunction()">
-<p ontouchstart="touchstartFunction()" class="heading" style="font-size: 40px;" id="touch" 
-onclick="mouseclickFunction()">
-    <b>What's funnier than a joke???</b>
-</p>
-<div >
-     Press for Joke! <br>
-     <button type="button" onclick="myFunction()" id="joke">Get Joke!</button>   
-</div>
-<div id="outputDiv" class="joke"></div>
-<br><br>
-<div >
-    Press to see which numbered joke this is <br>
-    <button type="button" onclick="jokeNumber()">Search the Joke Number</button>
-</div>
-<div id="outputId" class="joke"></div>
-
-<div >
-        Press to save this joke <br>
-        <button type="button" onclick="saveJoke()">Save Joke</button>
+<div class="grid-container">
+    <div class="item1" style="width: 300px;">
+        <div style="color: white; background-color: rgb(219, 80, 126); padding: 15px;" 
+        onclick="saveJoke()">
+            Press to save this joke <br>
+        </div>
     </div>
+    <div class="errorSaved">
+        <div id="errorSaved" style="background-color: red; color: white; width: 300px;">
+            
+        </div>
+    </div>
+
+    <div class="prompt" style="color: white;  background-color: Orange; width: 300px;" 
+    onmouseover="loadBar()" onmouseout="changeHeader()">
+        Hover over here and hold to also save!</div>
+
+    <div class="item5">5</div>
+
+
+    <div class="loadBar" style="color: white; font-size: 50px; width:0px; height: 100px; 
+    background: red" id="loadBar"><b>SAVING</b></div>
+
+    <div class="item6">
+        <button class="checkButton">How Many Jokes Saved</button>
+    </div>
+
+    <div class="jokeButton">
+        <div style="color: white; background-color: rgb(30, 236, 243); padding: 15px;" 
+        onclick="myFunction()">
+            Press for Joke!  
+        </div>
+    </div>
+
+    <div class="menu">
+        <div ontouchstart="touchstartFunction()" class="heading" style="background-color: orange; 
+        color: white; height: 70px; padding-top: 20px;" id="touch" 
+        onclick="mouseclickFunction()">
+            <b>What's funnier than a joke???</b>
+        </div>   
+    </div>  
+    
+    <div class="jokeDiv">
+        <div id="outputDiv" class="joke" style="font-size: 20px; background-color: springgreen"></div>
+    </div>
+</div>
+
+
 </body>
 
 </html>
