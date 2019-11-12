@@ -52,7 +52,7 @@ div {
 /*------Save Joke Transition/Animations*/
 @-webkit-keyframes myJoke{
     from {top: 0px;}
-    to {top: 200px;}
+    to {top: 500px;}
     20% {width: 75%; height: 50px; font-size: 50%; left: 5px;}
     35% {width: 25%; height: 25px; background-color: green; font-size: 20%; left: 15px;} 
     75% {width: 10%; height: 10px; background-color: lightgreen; font-size: 5%; left: 35px;}
@@ -61,7 +61,7 @@ div {
 
 @keyframes myJoke {
     from {top: 0px;}
-    to {top: 200px;}
+    to {top: 500px;}
     20% {width: 75%; height: 50px; font-size: 50%; left: 5px;}
     35% {width: 25%; height: 25px; background-color: green; font-size: 20%; left: 15px;} 
     75% {width: 10%; height: 10px; background-color: lightgreen; font-size: 5%; left: 35px;}
