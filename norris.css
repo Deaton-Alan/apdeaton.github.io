@@ -6,6 +6,13 @@
     transition: 1s;
   }
 
+.spinBin {
+    transition: 1s;
+    transform: rotate(360deg);
+    width: 100px;    
+    transition-delay: 1s;
+}
+
 #outputDiv {
     background-color: orange;
     color: white;
@@ -30,10 +37,11 @@ div {
     width: 300px;
     text-align: center;
     font-size: 20px;
-    transition: 3s;
+    transition: 1s;
   }
 
-.checkButton:hover {opacity: 0}
+.checkButton:hover {opacity: 0;}
+
 
 .headerChange {
     transform: rotate(20deg);
@@ -43,26 +51,26 @@ div {
 
 /*------Save Joke Transition/Animations*/
 @-webkit-keyframes myJoke{
-    from {left: 0px; top: 0px;}
-    to {left: 600px; top: 0px;}
-    20% {width: 75%; height: 50px; font-size: 50%;}
-    35% {width: 25%; height: 25px; background-color: green; font-size: 20%;} 
-    75% {width: 10%; height: 10px; background-color: lightgreen; font-size: 5%;}
-    100% {width: 0%; height: 0px; background-color: lightgreen; font-size: 0%;}
+    from {top: 0px;}
+    to {top: 200px;}
+    20% {width: 75%; height: 50px; font-size: 50%; left: 5px;}
+    35% {width: 25%; height: 25px; background-color: green; font-size: 20%; left: 15px;} 
+    75% {width: 10%; height: 10px; background-color: lightgreen; font-size: 5%; left: 35px;}
+    100% {width: 0%; height: 0px; background-color: lightgreen; font-size: 0%; left: 70px;}
 }
 
 @keyframes myJoke {
-    from {left: 0px; top: 0px;}
-    to {left: 600px; top: 0px;}
-    20% {width: 75%; height: 50px; font-size: 50%;}
-    35% {width: 25%; height: 25px; background-color: green; font-size: 20%;} 
-    75% {width: 10%; height: 10px; background-color: lightgreen; font-size: 5%;}
-    100% {width: 0%; height: 0px; background-color: lightgreen; font-size: 0%;}
+    from {top: 0px;}
+    to {top: 200px;}
+    20% {width: 75%; height: 50px; font-size: 50%; left: 5px;}
+    35% {width: 25%; height: 25px; background-color: green; font-size: 20%; left: 15px;} 
+    75% {width: 10%; height: 10px; background-color: lightgreen; font-size: 5%; left: 35px;}
+    100% {width: 0%; height: 0px; background-color: lightgreen; font-size: 0%; left: 70px;}
   }
 
 /*------Save Bar Transitions/Animations*/
 @-webkit-keyframes loadBar{
-    20% {width: 71%; height: 50%; font-size: 50px}
+    20% {width: 71%; height: 50%; font-size: 50px; left: 5px;}
     35% {width: 71%; height: 50%; background-color: red; font-size: 50px;} 
     65% {width: 71%; height: 50%; background-color: lightgreen; font-size: 50px;}
     80% {width: 71%; height: 50%; background-color: lightgreen; font-size: 50px;}
@@ -102,11 +110,30 @@ div {
     grid-area: 2 / 1/ 3/ 2;
   }
 
+.loadBar {
+    width: 300px;
+    min-height: 60px;
+  }
+
 .jokeDiv {
     width: 300px;
     grid-area: 3 / 1/ 4/ 2;
   }
 
+.hoverButton {
+width: 300px;
+grid-area: 2/3/3/4;
+}
+.jokesSaved {
+    width: 300px;
+    grid-area: 3/3/4/4;
+    transition: 1s;
+    opacity: 1;
+}
+
+#jokesSaved {
+    grid-area: 3/3/4/4;
+}
 
 .prompt {
     width: 300px;
