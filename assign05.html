@@ -8,9 +8,17 @@
 </style>
 <script>
     //This is the number of jokes saved
-    var numOfJokes;
+    var numOfJokes = 0;
     var jokeNumber;
     var jokeString;
+
+    //To show WHEN to trigger spinning Bin
+    var toggleSpin = false;
+
+    //This counter helps account for the bin spin to know WHEN to do it
+    //and not do it AT ALL when you press the button to retrive the joke
+    //more than one time in a row.
+    var jokeCounter = 0;
 
     var savedJoke;
 
@@ -41,6 +49,13 @@ function myFunction(){
     };
     xhttp.open("GET", url, true);
     xhttp.send();
+
+    if (toggleSpin == true && jokeCounter > 0){
+    var ele = document.getElementById("bin");
+    ele.classList.toggle("spinBin");
+    }
+    
+    jokeCounter = 0;
 
     var x = document.getElementById("savedDiv");
     if (x.innerHTML == "<b>Joke Saved!</b>") {
@@ -81,7 +96,15 @@ function saveJoke() {
         return;
     }
     savedJoke = x.innerHTML;
-    
+    numOfJokes++;
+
+    toggleSpin = true;
+    //Making Bin Spin
+    if (toggleSpin == true){
+    var ele = document.getElementById("bin");
+    ele.classList.toggle("spinBin");
+    jokeCounter++;
+    }
     
     //y.setAttribute("class", "heading")
     x.style.WebkitAnimation = "myJoke 1.5s";
@@ -114,6 +137,14 @@ function loadBar() {
         return;
     }
 
+    numOfJokes++;
+    toggleSpin = true;
+    if (toggleSpin == true){
+    var ele = document.getElementById("bin");
+    ele.classList.toggle("spinBin");
+    jokeCounter++;
+    }
+
     savedJoke = x.innerHTML;
 
     z.style.WebkitAnimation = "loadBar 3.5s";
@@ -144,6 +175,19 @@ function changeHeader() {
 
 
 }
+
+function showJokesSaved() {
+    var ele = document.getElementById("jokesSaved");
+    ele.classList.toggle("jokesSaved");
+    ele.innerHTML = "<b>" + numOfJokes + "</b>";
+}
+
+function hideJokesSaved() {
+    var ele = document.getElementById("jokesSaved");
+    ele.classList.toggle("jokesSaved");
+    ele.innerHTML = ""
+}
+
 </script>
 
 <link rel="stylesheet" href="norris.css">
@@ -168,15 +212,19 @@ function changeHeader() {
     onmouseover="loadBar()" onmouseout="changeHeader()">
         Hover over here and hold to also save!</div>
 
-    <div class="item5">5</div>
 
-
-    <div class="loadBar" style="color: white; font-size: 50px; width:0px; height: 100px; 
-    background: red" id="loadBar"><b>SAVING</b></div>
-
-    <div class="item6">
-        <button class="checkButton">How Many Jokes Saved</button>
+    <div class="loadBar" style="color: white; font-size: 30px; width:0px; height: 100px; 
+    background: red" id="loadBar">
+    <b>SAVING</b>
     </div>
+
+    <div class="hoverButton">
+        <button class="checkButton" onmouseover="showJokesSaved()" onmouseout="hideJokesSaved()">
+            How Many Jokes Saved
+        </button>
+    </div>
+
+    <div id="jokesSaved" style="color: orange;"></div>
 
     <div class="jokeButton">
         <div style="color: white; background-color: rgb(30, 236, 243); padding: 15px;" 
@@ -198,8 +246,8 @@ function changeHeader() {
     </div>
 </div>
 
-<div>
-    <img src="Dolphin.JPG" alt="bin">
+<div id="bin" >
+    <img src="bin.png" alt="bin" style="height: 100px; width: 100px; padding-left: 35px;">
 </div>
 
 </body>
