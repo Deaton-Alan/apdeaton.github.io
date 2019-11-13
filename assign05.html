@@ -10,7 +10,13 @@
     //This is the number of jokes saved
     var numOfJokes = 0;
     var jokeNumber;
+    
+    //This is the string used for the AJAX request
     var jokeString;
+
+    //If this counter is 0, it prevents the loadbar from showing
+    var loadCounter = 0;
+
 
     //To show WHEN to trigger spinning Bin
     var toggleSpin = false;
@@ -20,7 +26,11 @@
     //more than one time in a row.
     var jokeCounter = 0;
 
+    //The Joke that was saved
     var savedJoke;
+
+    //This helps control the bin dump effect
+    var dumpCounter = 0;
 
 function onloadFunction() {
     alert("You ready for some Chuck Norris jokes?!");
@@ -55,7 +65,16 @@ function myFunction(){
     ele.classList.toggle("spinBin");
     }
     
+
+    document.getElementById("showSavedJoke").innerHTML = "";
     jokeCounter = 0;
+    loadCounter++;
+
+    if (dumpCounter > 0) {
+        var ele = document.getElementById("bin");
+        ele.classList.toggle("dumpBin");
+        dumpCounter = 0;
+    }
 
     var x = document.getElementById("savedDiv");
     if (x.innerHTML == "<b>Joke Saved!</b>") {
@@ -96,7 +115,18 @@ function saveJoke() {
         return;
     }
     savedJoke = x.innerHTML;
+
+    localStorage.setItem("jokeSaved", savedJoke);
+
     numOfJokes++;
+
+    document.getElementById("showSavedJoke").innerHTML = "";
+
+    if (dumpCounter > 0) {
+        var ele = document.getElementById("bin");
+        ele.classList.toggle("dumpBin");
+        dumpCounter = 0;
+    }
 
     toggleSpin = true;
     //Making Bin Spin
@@ -137,17 +167,30 @@ function loadBar() {
         return;
     }
 
+    if (dumpCounter > 0) {
+        var ele = document.getElementById("bin");
+        ele.classList.toggle("dumpBin");
+        dumpCounter = 0;
+    }
+
+    savedJoke = x.innerHTML;
+    localStorage.setItem("jokeSaved", savedJoke);
+
+    document.getElementById("showSavedJoke").innerHTML = "";
+
     numOfJokes++;
     toggleSpin = true;
-    if (toggleSpin == true){
+    if (toggleSpin == true && loadCounter > 0){
     var ele = document.getElementById("bin");
     ele.classList.toggle("spinBin");
     jokeCounter++;
     }
 
     savedJoke = x.innerHTML;
-
+    
+    if (loadCounter != 0) {
     z.style.WebkitAnimation = "loadBar 3.5s";
+    }
 
     var elm2 = z;
     var newone2 = elm2.cloneNode(true);
@@ -179,13 +222,43 @@ function changeHeader() {
 function showJokesSaved() {
     var ele = document.getElementById("jokesSaved");
     ele.classList.toggle("jokesSaved");
-    ele.innerHTML = "<b>" + numOfJokes + "</b>";
+    ele.innerHTML = "<b>" + numOfJokes + " Jokes Saved!</b>";
 }
 
 function hideJokesSaved() {
     var ele = document.getElementById("jokesSaved");
     ele.classList.toggle("jokesSaved");
     ele.innerHTML = ""
+}
+
+function clearBinSpin() {
+    if (toggleSpin == true && jokeCounter > 0){
+    var ele = document.getElementById("bin");
+    ele.classList.toggle("spinBin");
+    jokeCounter = 0;
+    }
+}
+
+function dumpJoke() {
+    var x = document.getElementById("showSavedJoke");
+
+    var displayJoke = localStorage.getItem("jokeSaved");
+    x.innerHTML = displayJoke;
+
+    
+
+    if (dumpCounter == 0) {
+    var ele = document.getElementById("bin");
+    ele.classList.toggle("dumpBin");
+    dumpCounter++;
+    }
+
+    x.style.WebkitAnimation = "dumpJoke 3s";
+    var elm = x;
+    var newone = elm.cloneNode(true);
+    elm.parentNode.replaceChild(newone, elm);
+
+    
 }
 
 </script>
@@ -195,59 +268,69 @@ function hideJokesSaved() {
 </head>
 
 <body onload="onloadFunction()">
-<div class="grid-container">
-    <div class="item1" style="width: 300px;">
-        <div style="color: white; background-color: rgb(219, 80, 126); padding: 15px;" 
-        onclick="saveJoke()">
-            Press to save this joke <br>
+<div style="background-color: lightgray; padding: 15px;">
+    <div class="grid-container" style="background-color: white">
+        <div class="item1" style="width: 300px;">
+            <div style="color: white; background-color: rgb(219, 80, 126); padding: 15px;" 
+            onclick="saveJoke()">
+                Press to save this joke <br>
+            </div>
         </div>
-    </div>
-    <div class="errorSaved">
-        <div id="errorSaved" style="background-color: red; color: white; width: 300px;">
-            
+        <div class="errorSaved">
+            <div id="errorSaved" style="background-color: red; color: white; width: 300px;">
+                
+            </div>
         </div>
-    </div>
 
-    <div class="prompt" style="color: white;  background-color: Orange; width: 300px;" 
-    onmouseover="loadBar()" onmouseout="changeHeader()">
-        Hover over here and hold to also save!</div>
+        <div class="prompt" style="color: white;  background-color: Orange; width: 300px;" 
+        onmouseover="loadBar()" onmouseout="changeHeader()">
+            Hover over here and hold to also save!</div>
 
 
-    <div class="loadBar" style="color: white; font-size: 30px; width:0px; height: 100px; 
-    background: red" id="loadBar">
-    <b>SAVING</b>
-    </div>
-
-    <div class="hoverButton">
-        <button class="checkButton" onmouseover="showJokesSaved()" onmouseout="hideJokesSaved()">
-            How Many Jokes Saved
-        </button>
-    </div>
-
-    <div id="jokesSaved" style="color: orange;"></div>
-
-    <div class="jokeButton">
-        <div style="color: white; background-color: rgb(30, 236, 243); padding: 15px;" 
-        onclick="myFunction()">
-            Press for Joke!  
+        <div class="loadBar" style="color: white; font-size: 30px; width:0px; height: 100px; 
+        background: red" id="loadBar">
+        <b>SAVING</b>
         </div>
-    </div>
 
-    <div class="menu">
-        <div ontouchstart="touchstartFunction()" class="heading" style="background-color: orange; 
-        color: white; height: 70px; padding-top: 20px;" id="touch" 
-        onclick="mouseclickFunction()">
-            <b>What's funnier than a joke???</b>
-        </div>   
-    </div>  
-    
-    <div class="jokeDiv">
-        <div id="outputDiv" class="joke" style="font-size: 20px; background-color: springgreen"></div>
+        <div class="hoverButton">
+            <button class="checkButton" onmouseover="showJokesSaved()" onmouseout="hideJokesSaved()">
+                How Many Jokes Saved
+            </button>
+        </div>
+
+        <div id="jokesSaved" style="color: orange;"></div>
+
+        <div class="jokeButton">
+            <div style="color: white; background-color: rgb(30, 236, 243); padding: 15px;" 
+            onclick="myFunction()">
+                Press for Joke!  
+            </div>
+        </div>
+
+        <div class="menu">
+            <div ontouchstart="touchstartFunction()" class="heading" style="background-color: orange; 
+            color: white; height: 70px; padding-top: 20px;" id="touch" 
+            onclick="mouseclickFunction()">
+                <b>What's funnier than a joke???</b>
+            </div>   
+        </div>  
+        
+        <div class="jokeDiv">
+            <div id="outputDiv" class="joke" style="font-size: 20px; background-color: springgreen"></div>
+        </div>
     </div>
 </div>
 
-<div id="bin" >
-    <img src="bin.png" alt="bin" style="height: 100px; width: 100px; padding-left: 35px;">
+
+
+<div class="grid-container2" style="background-color: white;">
+    <div id="bin" class="bin" onmouseover="clearBinSpin()">
+        <img src="bin.png" alt="bin" style="height: 100px; width: 100px;"
+        onclick="dumpJoke()" style="background-color: orange;">
+    </div>
+
+    <div class="showSavedJoke" id="showSavedJoke" style="color: black; font-weight: bold;">
+    </div>
 </div>
 
 </body>
