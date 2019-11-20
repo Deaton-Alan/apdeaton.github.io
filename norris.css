@@ -95,12 +95,12 @@ div {
 
 /*------showSavedJoke Transition/Animations*/
 @-webkit-keyframes dumpJoke{
-  0%   {left:-400px; top:0px; width: 10px; height: 10px; font-size: 0%;}
+  0%   {left:-350px; top:0px; width: 10px; height: 10px; font-size: 0%;}
   100% {left: 0px; top:0px; width: 300px; height: 100px; font-size: 100%;}
 }
 
 @keyframes dumpJoke {
-  0%   {left:-400px; top:0px; width: 10px; height: 10px; font-size: 0%;}
+  0%   {left:-350px; top:0px; width: 10px; height: 10px; font-size: 0%;}
   100% {left: 0px; top:0px; width: 300px; height: 100px; font-size: 100%;}
 }
 
@@ -124,10 +124,23 @@ div {
     width: 300px;
   }
 
+.press {
+  background-color: rgb(219, 80, 126); 
+}
+
+.press:hover {
+  background-color:  rgb(233, 118, 156)
+}
+
 .jokeButton {
     width: 300px;
     grid-area: 2 / 1/ 3/ 2;
+    background-color: rgb(30, 236, 243);
   }
+
+.jokeButton:hover {
+  background-color: rgb(82, 244, 250);
+}
 
 .loadBar {
     width: 300px;
@@ -159,11 +172,14 @@ grid-area: 2/3/3/4;
     grid-area: 2 / 2/ 3/ 3;
   }
 
+
+
 /*------Gridd Container 2 */
 .grid-container2 {
   display: grid;
   grid-template-columns: auto auto auto;
   grid-gap: 10px;
+  padding: 10px;
   }
 
 .grid-container2 > div {
@@ -174,10 +190,50 @@ grid-area: 2/3/3/4;
 .bin {
   width: 300px;
   grid-area: 1/1/2/2;
-  position: fixed;
+  margin-left: -25px;
+  position: relative;
 }
 
 .showSavedJoke {
   grid-area: 1/2/2/3;
-  margin-left: 175px;
+  margin-left: 0px;
+}
+
+.videobutton {
+  grid-area: 1/3/2/4;
+  width: 300px;
+  height: 50px;
+  margin-left: 0px;
+  padding-top: 15px;
+  position: relative;
+  color: white;
+  font-size: 35px;
+  background-color: orange;
+}
+
+.videobutton:hover {
+  background-color: rgb(255, 182, 46);
+}
+
+.video {
+  grid-area: 2/3/3/4;
+  width: 300px;
+  margin-left: 0px;
+}
+
+.audiobutton {
+  grid-area: 2/1/3/2;
+  width: 300px;
+  height: 50px;
+  margin-left: 50px;
+  padding-top: 15px;
+  padding-left: 0px;
+  position: relative;
+  color: white;
+  font-size: 35px;
+  background-color: orange;
+}
+
+.audiobutton:hover {
+  background-color: rgb(255, 182, 46);
 }
