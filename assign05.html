@@ -7,6 +7,7 @@
 
 </style>
 <script>
+
     //This is the number of jokes saved
     var numOfJokes = 0;
     var jokeNumber;
@@ -75,7 +76,6 @@ function myFunction(){
         ele.classList.toggle("dumpBin");
         dumpCounter = 0;
     }
-
     var x = document.getElementById("savedDiv");
     if (x.innerHTML == "<b>Joke Saved!</b>") {
         x.setAttribute("id", "touch");
@@ -102,7 +102,6 @@ function saveJoke() {
     var x = document.getElementById("outputDiv");
     var y = document.getElementById("touch");
     document.getElementById("errorSaved").innerHTML = "";
-
     if (x.innerHTML == ""){
         y.setAttribute("class", "headerChange");
         y.style.backgroundColor = "red";
@@ -161,7 +160,7 @@ function loadBar() {
     var y = document.getElementById("touch");
     var z = document.getElementById("loadBar");
     document.getElementById("errorSaved").innerHTML = "";
-    
+    document.getElementById("bin").focus();
     if (x.innerHTML == savedJoke){
         document.getElementById("errorSaved").innerHTML = "<b>Error:</b> Already Saved this Joke";
         return;
@@ -261,6 +260,80 @@ function dumpJoke() {
     
 }
 
+
+function checkVideoStatus(){
+    var x = document.getElementById("videobutton");
+    if (x.innerHTML== "Press for Video")
+    {
+        showVideo();
+    }
+    else{
+        hideVideo();
+    }
+}
+
+function showVideo(){
+    var x = document.getElementById("videobutton");
+    var y = document.getElementById("video");
+
+    x.innerHTML = "Press to Hide Video";
+    y.style.opacity = 1;
+}
+
+function hideVideo(){
+    var x = document.getElementById("videobutton");
+    var y = document.getElementById("video");
+
+    x.innerHTML = "Press for Video";
+    y.style.opacity = 0;
+}
+
+function checkAudioStatus(){
+    var x = document.getElementById("audiobutton");
+    if (x.innerHTML== "Press for Audio")
+    {
+        showAudio();
+    }
+    else{
+        hideAudio();
+    }
+}
+
+function showAudio(){
+    var x = document.getElementById("audiobutton");
+    var y = document.getElementById("audio");
+
+    x.innerHTML = "Press to Hide Audio";
+    y.style.opacity = 1;
+}
+
+function hideAudio(){
+    var x = document.getElementById("audiobutton");
+    var y = document.getElementById("audio");
+
+    x.innerHTML = "Press for Audio";
+    y.style.opacity = 0;
+}
+
+function customJoke(){
+    var name = document.getElementById("fname").value;
+    var customJoke = document.getElementById("customJoke").value;
+
+    var joke = {name: name, joke: customJoke};
+
+    localStorage.setItem("customJoke", JSON.stringify(joke));
+
+}
+
+function showCustomJoke(){
+    
+    var getCustomJoke = JSON.parse(localStorage.getItem("customJoke"));
+    
+    document.getElementById("showCustomJoke").innerHTML = getCustomJoke.joke;
+}
+//CUSTOM CHUCK NORRIS JOKE
+
+
 </script>
 
 <link rel="stylesheet" href="norris.css">
@@ -268,11 +341,15 @@ function dumpJoke() {
 </head>
 
 <body onload="onloadFunction()">
+<canvas id="myCanvas" width="1300" height="100"
+style="border:1px solid #d3d3d3; margin-left: 15px;">
+Your browser does not support the canvas element.
+</canvas>
 <div style="background-color: lightgray; padding: 15px;">
     <div class="grid-container" style="background-color: white">
         <div class="item1" style="width: 300px;">
-            <div style="color: white; background-color: rgb(219, 80, 126); padding: 15px;" 
-            onclick="saveJoke()">
+            <div class="press" style="color: white; padding: 15px;
+            border-style: outset; border-width: 5px;" onclick="saveJoke()">
                 Press to save this joke <br>
             </div>
         </div>
@@ -300,8 +377,8 @@ function dumpJoke() {
 
         <div id="jokesSaved" style="color: orange;"></div>
 
-        <div class="jokeButton">
-            <div style="color: white; background-color: rgb(30, 236, 243); padding: 15px;" 
+        <div class="jokeButton" style="border-style: outset; border-width: 5px;">
+            <div class="pressButton" style="color: white; padding: 15px;""
             onclick="myFunction()">
                 Press for Joke!  
             </div>
@@ -322,17 +399,91 @@ function dumpJoke() {
 </div>
 
 
+<div style="background-color: lightgray; padding: 15px;">
+    <div class="grid-container2" style="background-color: white;">
+        <div id="bin" class="bin" onmouseover="clearBinSpin()">
+            <img src="bin.png" alt="bin" style="height: 100px; width: 100px;"
+            onclick="dumpJoke()" style="background-color: orange;">
+        </div>
 
-<div class="grid-container2" style="background-color: white;">
-    <div id="bin" class="bin" onmouseover="clearBinSpin()">
-        <img src="bin.png" alt="bin" style="height: 100px; width: 100px;"
-        onclick="dumpJoke()" style="background-color: orange;">
-    </div>
+        <div class="showSavedJoke" id="showSavedJoke" style="color: black; font-weight: bold;">
+        </div>
 
-    <div class="showSavedJoke" id="showSavedJoke" style="color: black; font-weight: bold;">
+        <div class="videobutton" id="videobutton" style="border-style: outset; border-width: 5px;"
+        onclick="checkVideoStatus()">
+            Press for Video
+        </div>
+        <video class="video" id="video" width="300px;" controls style="opacity: 0; 
+        border-style: ridge; border-width: 10px;">
+            <source src="norrisvideo.MOV" type="video/mp4">
+        </video>
+
+        <div class="audiobutton" id="audiobutton" style="border-style: outset; border-width: 5px; width: 300px;"
+        onclick="checkAudioStatus()">
+            Press for Audio
+        </div>
+        <audio class="audio" id="audio" width="300px;" controls style="opacity: 0; margin-top: 20px;">
+            <source src="norrisjokes.m4a">
+        </audio>
     </div>
 </div>
 
+<div style="background-color: lightgray; padding: 15px;">
+        <div class="grid-container3" style="background-color: white;">
+            <div class="customJoke" style="text-align: left;">
+                <b>CREATE YOUR OWN CUSTOM CHUCK NORRIS JOKE!</b>
+                <p>
+                    Your name: <input type="text" id="fname">
+                </p>
+                <p>
+                    <textarea rows="4" cols="50" id="customJoke">
+                    </textarea>
+                </p>
+                <p>
+                    <input type="button" name="submitButton" value="Submit Joke" 
+                    onclick="customJoke()">
+                </p>
+            </div>
+
+            <div class="showCustomJoke" style="text-align: left;">
+                <b>SHOW YOUR CUSTOM JOKE</b>
+                <p>
+                    <input type="button" name="submitButton" value="Show Joke" 
+                    onclick="showCustomJoke()">
+                </p>
+                <p id="showCustomJoke" style="font-size: 30px;">
+
+                </p>
+            </div>
+        </div>
+    </div>
+
+
+
+
+<div>
+</div>
+
 </body>
+
+<script>
+    window.onload = function() {
+        var canvas = document.getElementById("myCanvas");
+    var ctx = canvas.getContext("2d");
+    ctx.fillStyle = "orange";
+    ctx.fillRect(0, 0, 1300, 100);
+    
+    ctx.fillStyle = "white";
+    ctx.fillRect(20, 0,10,100);
+    ctx.fillRect(50, 0,20,100);
+
+    ctx.fillRect(1230, 0,20,100);
+    ctx.fillRect(1270, 0,10,100);
+
+    ctx.fillStyle="White";
+    ctx.font = "100px times new roman";
+    ctx.fillText("CHUCK NORRIS JOKES", 110,85);
+};
+</script>
 
 </html>
