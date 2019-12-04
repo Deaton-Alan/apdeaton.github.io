@@ -1,0 +1,584 @@
+<!DOCTYPE HTML>
+<html lang="en-us">
+<head>
+<meta charset="utf-8">
+<title>Chuck Norris</title>
+<style>
+
+</style>
+<script>
+
+    //This is the number of jokes saved
+    var numOfJokes = 0;
+    var jokeNumber;
+    
+    //This is the string used for the AJAX request
+    var jokeString;
+
+    //If this counter is 0, it prevents the loadbar from showing
+    var loadCounter = 0;
+
+
+    //To show WHEN to trigger spinning Bin
+    var toggleSpin = false;
+
+    //This counter helps account for the bin spin to know WHEN to do it
+    //and not do it AT ALL when you press the button to retrive the joke
+    //more than one time in a row.
+    var jokeCounter = 0;
+
+    //The Joke that was saved
+    var savedJoke;
+
+    //This helps control the bin dump effect
+    var dumpCounter = 0;
+
+    //This helps control the collapse effect
+    //This counter used for getting Joke
+    var collapseCounterJoke = 0;
+    //This counter used for getting Custom Joke
+    var collapseCounterCustom = 0;
+
+    var div1Counter = 0;
+    var div2Counter = 0;
+
+function onloadFunction() {
+    alert("You ready for some Chuck Norris jokes?!");
+}
+
+function mouseclickFunction() {
+    document.getElementById("touch").innerHTML= "<b>A Chuck Norris Joke!!! HAHAHA</b>";
+}
+
+function touchstartFunction(){
+    document.getElementById("touch").innerHTML= "<b>A Chuck Norris Joke!!! HAHAHA</b>";
+}
+
+
+function myFunction(){
+    var url = "http://api.icndb.com/jokes/random";
+    var xhttp = new XMLHttpRequest();
+    var joke;
+    xhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+        var myObj = JSON.parse(this.responseText);
+        joke = myObj.value.joke;
+        jokeString = JSON.stringify(myObj);
+        document.getElementById("outputDiv").innerHTML = joke;
+        }
+    };
+    xhttp.open("GET", url, true);
+    xhttp.send();
+
+    if (toggleSpin == true && jokeCounter > 0){
+    var ele = document.getElementById("bin");
+    ele.classList.toggle("spinBin");
+    }
+    
+
+    document.getElementById("showSavedJoke").innerHTML = "";
+    jokeCounter = 0;
+    loadCounter++;
+
+    if (dumpCounter > 0) {
+        var ele = document.getElementById("bin");
+        ele.classList.toggle("dumpBin");
+        dumpCounter = 0;
+    }
+    var x = document.getElementById("touch");
+    if (x.innerHTML == "<b>Joke Saved!</b>") {
+        x.setAttribute("id", "touch");
+        x.style.backgroundColor = "orange";
+        x.innerHTML = "<b>Chuck Norris Jokes</b>";
+    }
+
+    document.getElementById("errorSaved").innerHTML = "";
+    var elm = x;
+    var newone = elm.cloneNode(true);
+    elm.parentNode.replaceChild(newone, elm);
+}
+
+function jokeNumber(){
+    var stringifyObj = JSON.parse(jokeString);
+    var id = stringifyObj.value.id;
+    document.getElementById("outputId").innerHTML= "<b>" + id + "</b>";
+
+}
+
+//ANIMATION FOR JOKE
+
+function saveJoke() {
+    var x = document.getElementById("outputDiv");
+    var y = document.getElementById("touch");
+    document.getElementById("errorSaved").innerHTML = "";
+    if (x.innerHTML == ""){
+        y.setAttribute("class", "headerChange");
+        y.style.backgroundColor = "red";
+        y.innerHTML = "<b>OOPS!</b> No Joke has been chosen!";
+        return;
+    }
+
+    if (x.innerHTML == savedJoke){
+        document.getElementById("errorSaved").innerHTML = "<b>Error:</b> Already Saved this Joke";
+        return;
+    }
+    savedJoke = x.innerHTML;
+
+    localStorage.setItem("jokeSaved", savedJoke);
+
+    numOfJokes++;
+
+    document.getElementById("showSavedJoke").innerHTML = "";
+
+    if (dumpCounter > 0) {
+        var ele = document.getElementById("bin");
+        ele.classList.toggle("dumpBin");
+        dumpCounter = 0;
+    }
+
+    toggleSpin = true;
+    //Making Bin Spin
+    if (toggleSpin == true){
+    var ele = document.getElementById("bin");
+    ele.classList.toggle("spinBin");
+    jokeCounter++;
+    }
+    
+    //y.setAttribute("class", "heading")
+    x.style.WebkitAnimation = "myJoke 1.5s";
+
+    //x.style.color = "blue";  <-----Example of changing a style
+    //x.setAttribute("onclick", "removePost()")  <------Example of adding an attribute
+    var elm = x;
+    var newone = elm.cloneNode(true);
+    elm.parentNode.replaceChild(newone, elm);
+
+    
+    y.style.backgroundColor= "lightgreen";
+    //y.setAttribute("id", "savedDiv");
+    y.innerHTML = "<b>Joke Saved!</b>";
+    y.style.transform= "rotate(0deg)";
+
+    var element = y;
+    var newone = element.cloneNode(true);
+    element.parentNode.replaceChild(newone, element);
+}
+
+function loadBar() {
+    var x = document.getElementById("outputDiv");
+    var y = document.getElementById("touch");
+    var z = document.getElementById("loadBar");
+    document.getElementById("errorSaved").innerHTML = "";
+    document.getElementById("bin").focus();
+    if (x.innerHTML == savedJoke){
+        document.getElementById("errorSaved").innerHTML = "<b>Error:</b> Already Saved this Joke";
+        return;
+    }
+
+    if (dumpCounter > 0) {
+        var ele = document.getElementById("bin");
+        ele.classList.toggle("dumpBin");
+        dumpCounter = 0;
+    }
+
+    savedJoke = x.innerHTML;
+    localStorage.setItem("jokeSaved", savedJoke);
+
+    document.getElementById("showSavedJoke").innerHTML = "";
+
+    numOfJokes++;
+    toggleSpin = true;
+    if (toggleSpin == true && loadCounter > 0){
+    var ele = document.getElementById("bin");
+    ele.classList.toggle("spinBin");
+    jokeCounter++;
+    }
+
+    savedJoke = x.innerHTML;
+    
+    if (loadCounter != 0) {
+    z.style.WebkitAnimation = "loadBar 3.5s";
+    }
+
+    var elm2 = z;
+    var newone2 = elm2.cloneNode(true);
+    elm2.parentNode.replaceChild(newone2, elm2);
+    y.style.backgroundColor = "lightgreen";
+
+    document.getElementById("bin").focus();
+}
+
+function changeHeader() {
+    var x = document.getElementById("outputDiv");
+    var y = document.getElementById("touch");
+    
+    
+    if (x.innerHTML == ""){
+        y.style.transform= "rotate(20deg)";
+        y.style.backgroundColor = "red";
+        y.innerHTML = "<b>OOPS!</b> No Joke has been chosen!";
+        return;
+    }
+
+    y.style.transform= "rotate(0deg)";
+    var y = document.getElementById("touch");
+    //y.setAttribute("id", "savedDiv");
+    y.innerHTML = "<b>Joke Saved!</b>";
+    y.style.transform= "rotate(360deg)";
+
+
+}
+
+function showJokesSaved() {
+    var ele = document.getElementById("jokesSaved");
+    ele.classList.toggle("jokesSaved");
+    ele.innerHTML = "<b>" + numOfJokes + " Jokes Saved!</b>";
+}
+
+function hideJokesSaved() {
+    var ele = document.getElementById("jokesSaved");
+    ele.classList.toggle("jokesSaved");
+    ele.innerHTML = ""
+}
+
+function clearBinSpin() {
+    if (toggleSpin == true && jokeCounter > 0){
+    var ele = document.getElementById("bin");
+    ele.classList.toggle("spinBin");
+    jokeCounter = 0;
+    }
+}
+
+function dumpJoke() {
+    var x = document.getElementById("showSavedJoke");
+
+    var displayJoke = localStorage.getItem("jokeSaved");
+    x.innerHTML = displayJoke;
+
+    
+
+    if (dumpCounter == 0) {
+    var ele = document.getElementById("bin");
+    ele.classList.toggle("dumpBin");
+    dumpCounter++;
+    }
+
+    x.style.WebkitAnimation = "dumpJoke 3s";
+    var elm = x;
+    var newone = elm.cloneNode(true);
+    elm.parentNode.replaceChild(newone, elm);
+
+    
+}
+
+
+function checkVideoStatus(){
+    var x = document.getElementById("videobutton");
+    if (x.innerHTML== "Press for Video")
+    {
+        showVideo();
+    }
+    else{
+        hideVideo();
+    }
+}
+
+function showVideo(){
+    var x = document.getElementById("videobutton");
+    var y = document.getElementById("video");
+
+    x.innerHTML = "Press to Hide Video";
+    y.style.opacity = 1;
+}
+
+function hideVideo(){
+    var x = document.getElementById("videobutton");
+    var y = document.getElementById("video");
+
+    x.innerHTML = "Press for Video";
+    y.style.opacity = 0;
+}
+
+function checkAudioStatus(){
+    var x = document.getElementById("audiobutton");
+    if (x.innerHTML== "Press for Audio")
+    {
+        showAudio();
+    }
+    else{
+        hideAudio();
+    }
+}
+
+function showAudio(){
+    var x = document.getElementById("audiobutton");
+    var y = document.getElementById("audio");
+
+    x.innerHTML = "Press to Hide Audio";
+    y.style.opacity = 1;
+}
+
+function hideAudio(){
+    var x = document.getElementById("audiobutton");
+    var y = document.getElementById("audio");
+
+    x.innerHTML = "Press for Audio";
+    y.style.opacity = 0;
+}
+
+function customJoke(){
+    var name = document.getElementById("fname").value;
+    var customJoke = document.getElementById("customJoke").value;
+
+    var joke = {name: name, joke: customJoke};
+
+    localStorage.setItem("customJoke", JSON.stringify(joke));
+
+}
+
+function showCustomJoke(){
+    
+    var getCustomJoke = JSON.parse(localStorage.getItem("customJoke"));
+    
+    document.getElementById("showCustomJoke").innerHTML = getCustomJoke.joke + " --- by: " + 
+    getCustomJoke.name;
+}
+//CUSTOM CHUCK NORRIS JOKE
+
+function showDiv1(){
+    var div = document.getElementById("div1");
+    var collapseDiv = document.getElementById("collapse");
+    
+    
+    if (collapseCounterJoke % 2 == 0){
+        collapseDiv.classList.toggle("collapse");
+        collapseDiv.style.WebkitAnimation = "collapse 2.5s";
+        collapseCounterJoke++;
+        var elm = collapseDiv;
+        var newone = elm.cloneNode(true);
+        elm.parentNode.replaceChild(newone, elm);
+    }
+    if (div1Counter %2 == 0) {        
+        div.style.display = "block";
+        div1Counter++;
+    } 
+    else {
+        div.style.display = "none";        
+        div1Counter++;
+        collapseCounterJoke++;
+    }    
+}
+
+function showDiv2(){
+    var div = document.getElementById("div2");
+    var collapseDiv = document.getElementById("collapse");
+    
+    
+    if (collapseCounterCustom % 2 == 0){
+        collapseDiv.classList.toggle("collapse");
+        collapseDiv.style.WebkitAnimation = "collapse 2.5s";
+        collapseCounterCustom++;
+        var elm = collapseDiv;
+        var newone = elm.cloneNode(true);
+        elm.parentNode.replaceChild(newone, elm);
+    }
+    if (div2Counter %2 == 0) {        
+        div.style.display = "block";
+        div2Counter++;
+    } 
+    else {
+        div.style.display = "none";        
+        div2Counter++;
+        collapseCounterCustom++;
+    }  
+    
+    var x = document.getElementById("collapse");
+    x.addEventListener("webkitAnimationEnd", myEndFunction);
+    x.addEventListener("animationend", myEndFunction);
+  }
+
+  function myEndFunction(){
+    document.getElementById("customJoke").focus(); 
+  }
+</script>
+
+<link rel="stylesheet" href="norris.css">
+
+</head>
+
+<body onload="onloadFunction()" style="background-color: rgba(245, 214, 112, 0.555);"
+id = "backgroundColors">
+
+<div id="fixedHeader;" style="margin-left: 0px;">
+<canvas id="myCanvas" width="1300" height="80"
+style="border:1px solid #d3d3d3; margin-left: 15px; margin-bottom: -20px;">
+Your browser does not support the canvas element.
+</canvas>
+<div id="div0" style="padding: 0px; margin-top: 0px; margin-left: 15px;">
+    <div class="grid-container0" >
+            <div class="menu1" style="color: white; padding-top: -15px;
+            border-style: outset; border-width: 5px;" onclick="showDiv1()">
+                Press to see Jokes!
+            </div>
+
+            <div class="menu2" id="menu2" style="color: white; padding-top: -15px;
+            border-style: outset; border-width: 5px;" onclick="showDiv2()">
+                Press to CREATE YOUR OWN Joke!
+            </div>
+    </div>
+</div>
+</div>
+
+
+
+<div id="collapse" style="position: relative; padding-left: 160px; padding-top: 100px; 
+font-size: 0px; color: white; margin-left: -100px;">
+    LOADING: PLEASE WAIT...
+</div>
+
+<div id="div1">
+<div style="background-color: lightgray; padding: 15px;">
+    <div class="grid-container" style="background-color: white;">
+
+        <div class="item1" style="width: 300px; grid-area: 1/2/2/3;">
+            <div class="press" style="color: white; padding: 15px;
+            border-style: outset; border-width: 5px;" onclick="saveJoke()">
+                Press to save this joke <br>
+            </div>
+        </div>
+        <div class="errorSaved">
+            <div id="errorSaved" style="background-color: red; color: white; width: 300px;
+            grid-area: 1/3/2/4; position: relative;">
+                
+            </div>
+        </div>
+
+        <div class="prompt" style="color: white;  background-color: Orange; width: 300px;
+        grid-area: 2/2/3/3;" 
+        onmouseover="loadBar()" onmouseout="changeHeader()">
+            Hover over here and hold to also save!</div>
+
+
+        <div class="loadBar" style="color: white; font-size: 30px; width:0px; height: 100px; 
+        background: red" id="loadBar">
+        <b>SAVING</b>
+        </div>
+
+        <div class="hoverButton">
+            <button class="checkButton" onmouseover="showJokesSaved()" onmouseout="hideJokesSaved()">
+                How Many Jokes Saved
+            </button>
+        </div>
+
+        <div id="jokesSaved" style="color: orange;"></div>
+
+        <div class="jokeButton" id="jokeButton" style="border-style: outset; border-width: 5px;">
+            <div class="pressButton" style="color: white; padding: 15px;""
+            onclick="myFunction()">
+                Press for Joke!  
+            </div>
+        </div>
+
+        <div class="menu">
+            <div ontouchstart="touchstartFunction()" class="heading" style="background-color: orange; 
+            color: white; height: 70px; padding-top: 20px;" id="touch" 
+            onclick="mouseclickFunction()">
+                <b>What's funnier than a joke???</b>
+            </div>   
+        </div>  
+        
+        <div class="jokeDiv">
+            <div id="outputDiv" class="joke" style="font-size: 20px; background-color: springgreen"></div>
+        </div>
+    </div>
+</div>
+
+
+<div style="background-color: lightgray; padding: 15px;">
+    <div class="grid-container2" style="background-color: white;">
+        <div id="bin" class="bin" onmouseover="clearBinSpin()">
+            <img src="bin.png" alt="bin" style="height: 100px; width: 100px;"
+            onclick="dumpJoke()" style="background-color: orange;">
+        </div>
+
+        <div class="showSavedJoke" id="showSavedJoke" style="color: black; font-weight: bold;">
+        </div>
+
+        <div class="videobutton" id="videobutton" style="border-style: outset; border-width: 5px;"
+        onclick="checkVideoStatus()">
+            Press for Video
+        </div>
+        <video class="video" id="video" width="300px;" controls style="opacity: 0; 
+        border-style: ridge; border-width: 10px;">
+            <source src="norrisvideo.MOV" type="video/mp4">
+        </video>
+
+        <div class="audiobutton" id="audiobutton" style="border-style: outset; border-width: 5px; width: 300px;"
+        onclick="checkAudioStatus()">
+            Press for Audio
+        </div>
+        <audio class="audio" id="audio" width="300px;" controls style="opacity: 0; margin-top: 20px;">
+            <source src="norrisjokes.m4a">
+        </audio>
+    </div>
+</div>
+
+</div>
+
+
+<div id="div2">
+<div style="background-color: lightgray; padding: 15px;">
+        <div class="grid-container3" style="background-color: white;">
+            <div class="customJoke" style="text-align: left;">
+                <b>CREATE YOUR OWN CUSTOM CHUCK NORRIS JOKE!</b>
+                <p>
+                    Your name: <input type="text" id="fname">
+                </p>
+                <p>
+                    <textarea rows="4" cols="50" id="customJoke">
+                    </textarea>
+                </p>
+                <p>
+                    <input type="button" name="submitButton" value="Submit Joke" 
+                    onclick="customJoke()">
+                </p>
+            </div>
+
+            <div class="showCustomJoke" style="text-align: left;">
+                <b>SHOW YOUR CUSTOM JOKE</b>
+                <p>
+                    <input type="button" name="submitButton" value="Show Joke" 
+                    onclick="showCustomJoke()">
+                </p>
+                <p id="showCustomJoke" style="font-size: 30px;">
+
+                </p>
+            </div>
+        </div>
+</div>
+</div>
+
+
+</body>
+
+<script>
+    window.onload = function() {
+        var canvas = document.getElementById("myCanvas");
+    var ctx = canvas.getContext("2d");
+    ctx.fillStyle = "orange";
+    ctx.fillRect(0, 0, 1300, 100);
+    
+    ctx.fillStyle = "white";
+    ctx.fillRect(20, 0,10,100);
+    ctx.fillRect(50, 0,20,100);
+
+    ctx.fillRect(1230, 0,20,100);
+    ctx.fillRect(1270, 0,10,100);
+
+    ctx.fillStyle="White";
+    ctx.font = "90px times new roman";
+    ctx.fillText("CHUCK NORRIS JOKES", 160,70);
+};
+</script>
+
+</html>
